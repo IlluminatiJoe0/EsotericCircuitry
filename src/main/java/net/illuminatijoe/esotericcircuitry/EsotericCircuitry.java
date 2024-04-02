@@ -1,6 +1,8 @@
 package net.illuminatijoe.esotericcircuitry;
 
 import com.mojang.logging.LogUtils;
+import net.illuminatijoe.esotericcircuitry.item.ModCreativeModTabs;
+import net.illuminatijoe.esotericcircuitry.item.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -21,6 +23,14 @@ public class EsotericCircuitry {
 
     public EsotericCircuitry() {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+
+        ModCreativeModTabs.register(modEventBus);
+
+        ModItems.register(modEventBus);
+        //ModBlocks.register(modEventBus);
+        //ModBlockEntities.register(modEventBus);
+        //ModMenuTypes.register(modEventBus);
+        //ModRecipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 

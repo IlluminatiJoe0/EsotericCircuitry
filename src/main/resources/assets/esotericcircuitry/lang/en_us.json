@@ -1,0 +1,13 @@
+{
+  "creative_tab.esoteric_circuitry_tab": "Atomic Mining",
+
+  "item.esoteric_circuitry.component_container": "Component Container",
+  "item.esoteric_circuitry.conceiver_component": "Conceiver Component",
+  "item.esoteric_circuitry.conduction_component": "Conduction Component",
+  "item.esoteric_circuitry.divinum_container": "Divinum Container",
+  "item.esoteric_circuitry.divinum_ingot": "Divinum Ingot",
+  "item.esoteric_circuitry.esoteric_circuit_tier_1": "Esoteric Circuit Tier 1",
+  "item.esoteric_circuitry.excitation_node": "Excitation Node",
+  "item.esoteric_circuitry.perceiver_component": "Perceiver Component",
+  "item.esoteric_circuitry.receiver_component": "Receiver Component"
+}
