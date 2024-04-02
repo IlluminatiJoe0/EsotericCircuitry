@@ -18,7 +18,7 @@ public class ModCreativeModTabs {
     public static final RegistryObject<CreativeModeTab> ESOTERIC_CIRCUITRY_TAB = CREATIVE_MODE_TABS.register("esoteric_circuitry_tab",
             () -> CreativeModeTab
                     .builder()
-                    .icon(() -> new ItemStack(Items.GOLD_BLOCK))
+                    .icon(() -> new ItemStack(ModItems.CIRCUIT_T1.get()))
                     .title(Component.translatable("creative_tab.esoteric_circuitry_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         for(RegistryObject<Item> item : ModItems.ITEMS.getEntries()) {
