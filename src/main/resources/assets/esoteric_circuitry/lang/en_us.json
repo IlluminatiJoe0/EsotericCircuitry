@@ -11,10 +11,14 @@
   "item.esoteric_circuitry.perceiver_component": "Perceiver Component",
   "item.esoteric_circuitry.receiver_component": "Receiver Component",
 
+  "block.esoteric_circuitry.arcane_conduit": "Arcane Conduit",
+
   "tooltip.esoteric_circuitry.component_container.tooltip": "§7A simple component container",
   "tooltip.esoteric_circuitry.conceiver_component.tooltip": "§6Harness the essence of Creation itself\n\n§7§oWhen integrated into electronic circuits, it serves as the catalyst for initiating processes and bringing them to life, akin to the act of divine creation.",
   "tooltip.esoteric_circuitry.conduction_component.tooltip": "§6Bridge the gap between the spiritual and the material\n\n§7§oThe Conduction Component facilitates the transfer of energy and signals between different parts of electronic systems.",
   "tooltip.esoteric_circuitry.esoteric_circuit_tier_1.tooltip": "§7§oThe foundation of divination",
   "tooltip.esoteric_circuitry.perceiver_component.tooltip": "§6Witness the harmony of spiritual cognition\n\n§7§oThe Perceiver Component serves as the cognitive center of electronic systems, enabling them to interpret and understand the data received.",
-  "tooltip.esoteric_circuitry.receiver_component.tooltip": "§6Embrace the energy of divine transmission\n\n§7§oThe Receiver Component acts as a conduit for receiving signals and energies from other components or external sources."
+  "tooltip.esoteric_circuitry.receiver_component.tooltip": "§6Embrace the energy of divine transmission\n\n§7§oThe Receiver Component acts as a conduit for receiving signals and energies from other components or external sources.",
+
+  "tooltip.esoteric_circuitry.arcane_conduit.tooltip": "§6Generates Divine Essence and provides it to the block below it"
 }
