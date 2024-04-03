@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "esoteric_circuitry:divinum_container"
+    },
+    "X": {
+      "item": "esoteric_circuitry:excitation_node"
+    },
+    "C": {
+      "item": "esoteric_circuitry:conduction_component"
+    },
+    "K": {
+      "item": "esoteric_circuitry:conceiver_component"
+    },
+    "R": {
+      "item": "esoteric_circuitry:receiver_component"
+    },
+    "P": {
+      "item": "esoteric_circuitry:perceiver_component"
+    },
+    "d": {
+      "item": "esoteric_circuitry:divinum_ingot"
+    }
+  },
+  "pattern": [
+    "KdR",
+    "C#P",
+    "dXd"
+  ],
+  "result": {
+    "item": "esoteric_circuitry:esoteric_circuit_tier_1",
+    "count": 1
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "minecraft:gold_nugget"
+    },
+    "X": {
+      "item": "esoteric_circuitry:component_container"
+    }
+  },
+  "pattern": [
+    "###",
+    "# #",
+    "#X#"
+  ],
+  "result": {
+    "item": "esoteric_circuitry:conduction_component",
+    "count": 1
+  }
+}

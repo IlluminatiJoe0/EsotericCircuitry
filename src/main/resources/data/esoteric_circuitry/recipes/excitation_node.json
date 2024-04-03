@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "#": {
+      "item": "esoteric_circuitry:divinum_ingot"
+    },
+    "X": {
+      "item": "minecraft:redstone"
+    },
+    "C": {
+      "item": "esoteric_circuitry:conduction_component"
+    }
+  },
+  "pattern": [
+    " X ",
+    "C#C",
+    " X "
+  ],
+  "result": {
+    "item": "esoteric_circuitry:excitation_node",
+    "count": 1
+  }
+}
