@@ -6,13 +6,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.StateDefinition;
-import org.jetbrains.annotations.Nullable;
 
 public class ArcaneConduitEntity extends BlockEntity implements TickableBlockEntity {
     public ArcaneConduitEntity(BlockPos pPos, BlockState pBlockState) {
@@ -37,8 +32,21 @@ public class ArcaneConduitEntity extends BlockEntity implements TickableBlockEnt
             return;
         }
 
-        if (ticks++ % 20 == 0){
+        if (ticks % 20 == 0){
             getLevel().playSound(null, getBlockPos(), SoundEvents.BEACON_AMBIENT, SoundSource.BLOCKS, 0.1f, 5f);
+
+            if (ticks % 40 == 0){
+                BlockEntity belowBE = getLevel().getBlockEntity(getBlockPos().below());
+                if (belowBE instanceof ArcaneConduitEntity conduitEntity) {
+                    conduitEntity.turnOn();
+                }
+                ticks = 0;
+            }
         }
+        ticks++;
+    }
+
+    private void turnOn() {
+        getLevel().playSound(null, getBlockPos(), SoundEvents.NOTE_BLOCK_BELL.get(), SoundSource.BLOCKS, 1f, 1f);
     }
 }
