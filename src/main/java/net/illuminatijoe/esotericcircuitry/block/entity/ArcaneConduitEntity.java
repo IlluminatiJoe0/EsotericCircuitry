@@ -4,6 +4,8 @@ import net.illuminatijoe.esotericcircuitry.block.ModBlockEntities;
 import net.illuminatijoe.esotericcircuitry.block.entity.util.TickableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -28,8 +30,15 @@ public class ArcaneConduitEntity extends BlockEntity implements TickableBlockEnt
     }
 
 
+    public int ticks = 0;
     @Override
     public void tick() {
-        System.out.println("Hello!");
+        if (this.level == null || this.level.isClientSide()){
+            return;
+        }
+
+        if (ticks++ % 20 == 0){
+            getLevel().playSound(null, getBlockPos(), SoundEvents.BEACON_AMBIENT, SoundSource.BLOCKS, 0.1f, 5f);
+        }
     }
 }

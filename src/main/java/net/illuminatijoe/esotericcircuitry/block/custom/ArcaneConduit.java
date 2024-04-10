@@ -37,23 +37,6 @@ public class ArcaneConduit extends Block implements EntityBlock {
         super(pProperties);
     }
 
-//    @Override
-//    public void onPlace(BlockState pState, Level pLevel, BlockPos pPos, BlockState pOldState, boolean pMovedByPiston) {
-//        if (!pLevel.isClientSide() && !pMovedByPiston){
-//            BlockState block = pLevel.getBlockState(pPos.below());
-//
-//            if (isMachine(block)){
-//                //testing
-//                pLevel.playLocalSound(pPos, SoundEvents.NOTE_BLOCK_BELL.get(), SoundSource.BLOCKS, 1f, 1f, false);
-//            } else {
-//                pLevel.playLocalSound(pPos, SoundEvents.NOTE_BLOCK_BANJO.get(), SoundSource.BLOCKS, 1f, 1f, false);
-//
-//            }
-//        }
-//
-//        super.onPlace(pState, pLevel, pPos, pOldState, pMovedByPiston);
-//    }
-
     // check if the block is a machine
     private boolean isMachine(BlockState block) {
         return block.is(ModBlocks.ARCANE_CONDUIT.get());
@@ -66,10 +49,6 @@ public class ArcaneConduit extends Block implements EntityBlock {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
     }
 
-//    @Override
-//    public RenderShape getRenderShape(BlockState pState) {
-//        return RenderShape.MODEL;
-//    }
 
     @Nullable
     @Override
