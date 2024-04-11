@@ -1,6 +1,7 @@
 package net.illuminatijoe.esotericcircuitry.block.entity;
 
 import net.illuminatijoe.esotericcircuitry.block.ModBlockEntities;
+import net.illuminatijoe.esotericcircuitry.block.entity.util.FunctionalBlockEntity;
 import net.illuminatijoe.esotericcircuitry.block.entity.util.TickableBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -37,16 +38,12 @@ public class ArcaneConduitEntity extends BlockEntity implements TickableBlockEnt
 
             if (ticks % 40 == 0){
                 BlockEntity belowBE = getLevel().getBlockEntity(getBlockPos().below());
-                if (belowBE instanceof ArcaneConduitEntity conduitEntity) {
+                if (belowBE instanceof FunctionalBlockEntity conduitEntity) {
                     conduitEntity.turnOn();
                 }
                 ticks = 0;
             }
         }
         ticks++;
-    }
-
-    private void turnOn() {
-        getLevel().playSound(null, getBlockPos(), SoundEvents.NOTE_BLOCK_BELL.get(), SoundSource.BLOCKS, 1f, 1f);
     }
 }

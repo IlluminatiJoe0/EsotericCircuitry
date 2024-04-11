@@ -2,6 +2,7 @@ package net.illuminatijoe.esotericcircuitry.block;
 
 import net.illuminatijoe.esotericcircuitry.EsotericCircuitry;
 import net.illuminatijoe.esotericcircuitry.block.custom.ArcaneConduit;
+import net.illuminatijoe.esotericcircuitry.block.custom.Materializer;
 import net.illuminatijoe.esotericcircuitry.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -21,6 +22,10 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> ARCANE_CONDUIT = registerBlock("arcane_conduit",
             () -> new ArcaneConduit(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
+                    .strength(2f).requiresCorrectToolForDrops().noOcclusion()));
+
+    public static final RegistryObject<Block> MATERIALIZER = registerBlock("materializer",
+            () -> new Materializer(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)
                     .strength(2f).requiresCorrectToolForDrops().noOcclusion()));
 
 
