@@ -22,5 +22,7 @@
   "tooltip.esoteric_circuitry.receiver_component.tooltip": "§6Embrace the energy of divine transmission\n\n§7§oThe Receiver Component acts as a conduit for receiving signals and energies from other components or external sources.",
 
   "tooltip.esoteric_circuitry.arcane_conduit.tooltip": "§6Generates Divine Essence and provides it to the block below it",
-  "tooltip.esoteric_circuitry.materializer.tooltip": "§6Materializes Divine Essence into Divinum Ingots"
+  "tooltip.esoteric_circuitry.materializer.tooltip": "§6Materializes Divine Essence into Divinum Ingots",
+
+  "gui.esoteric_circuitry.materializer_screen": "Materializer"
 }

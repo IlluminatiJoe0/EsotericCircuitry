@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "esoteric_circuitry:arcane_conduit"
+    "esoteric_circuitry:arcane_conduit",
+    "esoteric_circuitry:materializer"
   ]
 }

@@ -38,8 +38,8 @@ public class ArcaneConduitEntity extends BlockEntity implements TickableBlockEnt
 
             if (ticks % 40 == 0){
                 BlockEntity belowBE = getLevel().getBlockEntity(getBlockPos().below());
-                if (belowBE instanceof FunctionalBlockEntity conduitEntity) {
-                    conduitEntity.turnOn();
+                if (belowBE instanceof FunctionalBlockEntity entity) {
+                    entity.turnOn();
                 }
                 ticks = 0;
             }

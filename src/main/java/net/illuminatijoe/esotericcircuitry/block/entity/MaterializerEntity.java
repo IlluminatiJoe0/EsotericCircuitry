@@ -4,13 +4,18 @@ import net.illuminatijoe.esotericcircuitry.EsotericCircuitry;
 import net.illuminatijoe.esotericcircuitry.block.ModBlockEntities;
 import net.illuminatijoe.esotericcircuitry.block.entity.util.FunctionalBlockEntity;
 import net.illuminatijoe.esotericcircuitry.block.entity.util.TickableBlockEntity;
+import net.illuminatijoe.esotericcircuitry.gui.MaterializerMenu;
+import net.illuminatijoe.esotericcircuitry.item.ModItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -30,10 +35,42 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
         }
     };
 
+    protected final ContainerData data;
+    private int progress = 0;
+    private int maxProgress = 400;
+    private static final int OUTPUT_SLOT = 0;
     private final LazyOptional<ItemStackHandler> optional = LazyOptional.of(() -> this.inventory);
+
 
     public MaterializerEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.MATERIALIZER_ENTITY.get(), pPos, pBlockState);
+        this.data = new ContainerData() {
+            @Override
+            public int get(int pIndex) {
+                return switch (pIndex) {
+                    case 0 -> MaterializerEntity.this.progress;
+                    case 1 -> MaterializerEntity.this.maxProgress;
+                    default -> 0;
+                };
+            }
+
+            @Override
+            public void set(int pIndex, int pValue) {
+                switch (pIndex) {
+                    case 0 -> MaterializerEntity.this.progress = pValue;
+                    case 1 -> MaterializerEntity.this.maxProgress = pValue;
+                }
+            }
+
+            @Override
+            public int getCount() {
+                return 2;
+            }
+        };
+    }
+
+    public ItemStack getRenderStack() {
+        return inventory.getStackInSlot(OUTPUT_SLOT);
     }
 
     @Override
@@ -89,10 +126,45 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
     }
 
 
-
+    private int ticks = 0;
     @Override
     public void tick() {
+        if (this.turnedOn){
+            increaseProgress();
+            if(ticks == 1) {
+                getLevel().playSound(null, getBlockPos(), SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 0.3f, 1f);
+            }
+            if(hasFinished()){
+                outputItem();
+                setChanged();
+            }
+        } else {
+            resetProgress();
+        }
 
+    }
+
+    private void resetProgress() {
+        progress = 0;
+        ticks = 0;
+    }
+
+    private void outputItem() {
+        ItemStack result = ModItems.DIVINUM_INGOT.get().getDefaultInstance();
+
+        this.inventory.setStackInSlot(OUTPUT_SLOT, new ItemStack(result.getItem(),
+                this.inventory.getStackInSlot(OUTPUT_SLOT).getCount() + result.getCount()));
+
+        resetProgress();
+    }
+
+    private boolean hasFinished() {
+        return progress >= maxProgress;
+    }
+
+    private void increaseProgress() {
+        progress++;
+        ticks++;
     }
 
     @Override
@@ -103,6 +175,6 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return null;
+        return new MaterializerMenu(i, inventory, this, this.data);
     }
 }

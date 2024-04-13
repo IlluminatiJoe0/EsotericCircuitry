@@ -3,6 +3,7 @@ package net.illuminatijoe.esotericcircuitry;
 import com.mojang.logging.LogUtils;
 import net.illuminatijoe.esotericcircuitry.block.ModBlockEntities;
 import net.illuminatijoe.esotericcircuitry.block.ModBlocks;
+import net.illuminatijoe.esotericcircuitry.gui.ModMenuTypes;
 import net.illuminatijoe.esotericcircuitry.item.ModCreativeModTabs;
 import net.illuminatijoe.esotericcircuitry.item.ModItems;
 import net.minecraftforge.api.distmarker.Dist;
@@ -31,7 +32,7 @@ public class EsotericCircuitry {
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModBlockEntities.register(modEventBus);
-        //ModMenuTypes.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
         //ModRecipes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
