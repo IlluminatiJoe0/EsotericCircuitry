@@ -132,7 +132,8 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
         if (this.turnedOn){
             increaseProgress();
             if(ticks == 1) {
-                getLevel().playSound(null, getBlockPos(), SoundEvents.LAVA_EXTINGUISH, SoundSource.BLOCKS, 0.3f, 1f);
+                getLevel().playSound(null, getBlockPos(), SoundEvents.LAVA_EXTINGUISH,
+                        SoundSource.BLOCKS, 0.3f, 1f);
             }
             if(hasFinished()){
                 outputItem();
@@ -175,6 +176,10 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
-        return new MaterializerMenu(i, inventory, this, this.data);
+        return new MaterializerMenu(i, inventory, this);
+    }
+
+    public LazyOptional<ItemStackHandler> getOptional() {
+        return this.optional;
     }
 }

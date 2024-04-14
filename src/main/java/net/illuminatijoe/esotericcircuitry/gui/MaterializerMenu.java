@@ -11,32 +11,68 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MaterializerMenu extends AbstractContainerMenu {
-    public final MaterializerEntity blockEntity;
-    private final Level level;
-    private final ContainerData data;
+    private final MaterializerEntity blockEntity;
+    private final ContainerLevelAccess levelAccess;
 
-    public MaterializerMenu(int pContainerId, Inventory inventory, FriendlyByteBuf extraData) {
-        this(pContainerId, inventory, inventory.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(1));
+
+    public MaterializerMenu(int pContainerId, Inventory inventory, BlockEntity blockEntity) {
+        super(ModMenuTypes.MATERIALIZER_MENU.get(), pContainerId);
+
+        if(blockEntity instanceof MaterializerEntity be){
+            this.blockEntity = be;
+        } else {
+            throw new IllegalStateException("Incorrect block entity class (%s) passed into MaterializerMenu!"
+                    .formatted(blockEntity.getClass().getCanonicalName()));
+        }
+
+        this.levelAccess = ContainerLevelAccess.create(blockEntity.getLevel(), blockEntity.getBlockPos());
+        createPlayerHotbar(inventory);
+        createPlayerInventory(inventory);
+        createBlockEntityInventory(be);
+
+//        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
+//            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 36));
+//        });
+//
+//        addDataSlots(data);
     }
 
-    public MaterializerMenu(int pContainerId, Inventory inventory, BlockEntity entity, ContainerData data){
-        super(ModMenuTypes.MATERIALIZER_MENU.get(), pContainerId);
-        checkContainerSize(inventory, 1);
-        blockEntity = ((MaterializerEntity) entity);
-        this.level = inventory.player.level();
-        this.data = data;
+    private void createBlockEntityInventory(MaterializerEntity be) {
+        be.getOptional().ifPresent(inventory -> {
+            addSlot(new SlotItemHandler(inventory, 0, 80, 35) /*{
+                @Override
+                public boolean mayPickup(Player playerIn) {
+                    return super.mayPickup(playerIn);
+                }
 
-        addPlayerInventory(inventory);
-        addPlayerHotbar(inventory);
-
-        this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 36));
+                @Override
+                public boolean mayPlace(@NotNull ItemStack stack) {
+                    return false;
+                }
+            }*/);
         });
+    }
 
-        addDataSlots(data);
+    private void createPlayerInventory(Inventory inventory) {
+        for (int row = 0; row < 3; row++) {
+            for (int collumn = 0; collumn < 9; collumn++) {
+                addSlot(new Slot(inventory, 9 + collumn + (row*9), 8 + (collumn*18), 84 + (row * 18)));
+            }
+        }
+    }
+
+    private void createPlayerHotbar(Inventory inventory) {
+        for (int collumn = 0; collumn < 9; collumn++) {
+            addSlot(new Slot(inventory, collumn, 8 + (collumn*18), 142));
+        }
+    }
+
+    public MaterializerMenu(int pContainerId, Inventory inventory, FriendlyByteBuf additionalData){
+        this(pContainerId, inventory, inventory.player.level().getBlockEntity(additionalData.readBlockPos()));
     }
 
     private void addPlayerHotbar(Inventory inventory) {
@@ -104,12 +140,11 @@ public class MaterializerMenu extends AbstractContainerMenu {
     }
 
     @Override
-    public boolean stillValid(Player player) {
-        return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                player, ModBlocks.MATERIALIZER.get());
+    public boolean stillValid(@NotNull Player player) {
+        return stillValid(this.levelAccess, player, ModBlocks.MATERIALIZER.get());
     }
 
-    public boolean isCrafting() {
-        return data.get(0) > 0;
+    public MaterializerEntity getBlockEntity() {
+        return blockEntity;
     }
 }
