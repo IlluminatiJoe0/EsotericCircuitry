@@ -49,7 +49,6 @@ public class ArcaneConduit extends Block implements EntityBlock {
         super.appendHoverText(pStack, pLevel, pTooltip, pFlag);
     }
 
-
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
@@ -70,10 +69,8 @@ public class ArcaneConduit extends Block implements EntityBlock {
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide() && pHand == InteractionHand.MAIN_HAND){
-            pPlayer.sendSystemMessage(Component.literal("Hello"));
             return InteractionResult.sidedSuccess(pLevel.isClientSide());
         }
-
         return super.use(pState, pLevel, pPos, pPlayer, pHand, pHit);
     }
 

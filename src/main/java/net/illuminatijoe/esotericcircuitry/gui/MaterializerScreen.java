@@ -10,21 +10,18 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.NotNull;
 
 public class MaterializerScreen extends AbstractContainerScreen<MaterializerMenu> {
     public static final Component TITLE = Component.translatable("gui.esoteric_circuitry.materializer_screen");
 
-    private final BlockPos position;
     private final int imageWidth, imageHeight;
-    private int leftPos, topPos;
-    private MaterializerEntity materializerEntity;
     private static final ResourceLocation TEXTURE = new ResourceLocation(EsotericCircuitry.MOD_ID,
-            "textures/gui/materializer_screen.png");
+            "textures/gui/materializer_menu.png");
 
-    public MaterializerScreen(BlockPos pos, MaterializerMenu menu, Inventory inventory) {
+    public MaterializerScreen(MaterializerMenu menu, Inventory inventory, Component pTitle) {
         super(menu, inventory, TITLE);
 
-        this.position = pos;
         this.imageWidth = 176;
         this.imageHeight = 166;
     }
@@ -37,25 +34,16 @@ public class MaterializerScreen extends AbstractContainerScreen<MaterializerMenu
 
         Level level = this.minecraft.level;
         if(level == null) return;
-
-        BlockEntity BE = level.getBlockEntity(this.position);
-        if (BE instanceof MaterializerEntity ME) {
-            this.materializerEntity = ME;
-        } else {
-            EsotericCircuitry.LOGGER.info("BlockEntity at " + this.position + "is not of type MaterializerEntity!\n");
-            return;
-        }
     }
 
     @Override
-    public void render(GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
-        renderBackground(pGuiGraphics);
+    public void render(@NotNull GuiGraphics pGuiGraphics, int pMouseX, int pMouseY, float pPartialTick) {
         super.render(pGuiGraphics, pMouseX, pMouseY, pPartialTick);
-        pGuiGraphics.drawString(this.font, TITLE, this.leftPos+8, this.topPos+8, 0x404040, false);
+        renderTooltip(pGuiGraphics, pMouseX, pMouseY);
     }
 
     @Override
-    protected void renderBg(GuiGraphics guiGraphics, float v, int i, int i1) {
+    protected void renderBg(@NotNull GuiGraphics guiGraphics, float v, int i, int i1) {
         renderBackground(guiGraphics);
         guiGraphics.blit(TEXTURE, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
     }

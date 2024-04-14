@@ -78,6 +78,7 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
         super.load(nbt);
         CompoundTag data = nbt.getCompound(EsotericCircuitry.MOD_ID);
         this.inventory.deserializeNBT(data.getCompound("inventory"));
+        this.turnedOn = data.getBoolean("turned_on");
     }
 
     @Override
@@ -85,6 +86,7 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
         super.saveAdditional(nbt);
         var data = new CompoundTag();
         data.put("inventory", this.inventory.serializeNBT());
+        data.putBoolean("turned_on", this.turnedOn);
         nbt.put(EsotericCircuitry.MOD_ID, data);
     }
 
@@ -131,7 +133,7 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
     public void tick() {
         if (this.turnedOn){
             increaseProgress();
-            if(ticks == 1) {
+            if(ticks == 399) {
                 getLevel().playSound(null, getBlockPos(), SoundEvents.LAVA_EXTINGUISH,
                         SoundSource.BLOCKS, 0.3f, 1f);
             }
