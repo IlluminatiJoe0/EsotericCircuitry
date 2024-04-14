@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "esoteric_circuitry:block/materializer" },
+    "facing=east": { "model": "esoteric_circuitry:block/materializer", "y": 90 },
+    "facing=south": { "model": "esoteric_circuitry:block/materializer", "y": 180 },
+    "facing=west": { "model": "esoteric_circuitry:block/materializer", "y": 270 }
+  }
+}
