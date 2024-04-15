@@ -17,7 +17,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
@@ -27,6 +26,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MaterializerEntity extends FunctionalBlockEntity implements TickableBlockEntity, MenuProvider {
+
+    protected final ContainerData data;
+    private int progress = 0;
+    private int maxProgress = 400;
+    private static final int OUTPUT_SLOT = 0;
+    private final LazyOptional<ItemStackHandler> optional = LazyOptional.of(() -> this.inventory);
     private final ItemStackHandler inventory = new ItemStackHandler() {
         @Override
         protected void onContentsChanged(int slot) {
@@ -35,13 +40,7 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
         }
     };
 
-    protected final ContainerData data;
-    private int progress = 0;
-    private int maxProgress = 400;
-    private static final int OUTPUT_SLOT = 0;
-    private final LazyOptional<ItemStackHandler> optional = LazyOptional.of(() -> this.inventory);
-
-
+    // CONSTRUCTOR
     public MaterializerEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.MATERIALIZER_ENTITY.get(), pPos, pBlockState);
         this.data = new ContainerData() {
@@ -69,10 +68,6 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
         };
     }
 
-    public ItemStack getRenderStack() {
-        return inventory.getStackInSlot(OUTPUT_SLOT);
-    }
-
     @Override
     public void load(CompoundTag nbt) {
         super.load(nbt);
@@ -91,35 +86,13 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
     }
 
     @Override
-    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
-        if (cap == ForgeCapabilities.ITEM_HANDLER) {
-            return this.optional.cast();
-        }
-
-        return super.getCapability(cap);
-    }
-
-    @Override
     public void invalidateCaps() {
         super.invalidateCaps();
         this.optional.invalidate();
     }
 
-    public ItemStackHandler getInventory() {
-        return this.inventory;
-    }
-    public ItemStack getStackInSlot(int slot) {
-        return this.inventory.getStackInSlot(slot);
-    }
     public void setStackInSlot(int slot, ItemStack stack) {
         this.inventory.setStackInSlot(slot, stack);
-    }
-
-    @Override
-    public CompoundTag getUpdateTag() {
-        CompoundTag nbt = super.getUpdateTag();
-        saveAdditional(nbt);
-        return nbt;
     }
 
     @Override
@@ -127,11 +100,11 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
         super.handleUpdateTag(tag);
     }
 
-
+    // TICK LOGIC
     private int ticks = 0;
     @Override
     public void tick() {
-        if (this.turnedOn){
+        if (this.turnedOn && ableToPutIntoSlot()){
             increaseProgress();
             if(ticks == 399) {
                 getLevel().playSound(null, getBlockPos(), SoundEvents.LAVA_EXTINGUISH,
@@ -144,7 +117,10 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
         } else {
             resetProgress();
         }
+    }
 
+    private boolean ableToPutIntoSlot() {
+        return ((getStackInSlot(0).getCount() <= 63) && (getStackInSlot(0).getItem() == ModItems.DIVINUM_INGOT.get()));
     }
 
     private void resetProgress() {
@@ -170,18 +146,44 @@ public class MaterializerEntity extends FunctionalBlockEntity implements Tickabl
         ticks++;
     }
 
-    @Override
-    public Component getDisplayName() {
-        return Component.translatable("block.esoteric_circuitry.materializer");
-    }
-
+    // MENU
     @Nullable
     @Override
-    public AbstractContainerMenu createMenu(int i, Inventory inventory, Player player) {
+    public AbstractContainerMenu createMenu(int i, @NotNull Inventory inventory, Player player) {
         return new MaterializerMenu(i, inventory, this);
     }
 
+    // GETTERS
     public LazyOptional<ItemStackHandler> getOptional() {
         return this.optional;
+    }
+
+    @Override
+    public @NotNull Component getDisplayName() {
+        return Component.translatable("block.esoteric_circuitry.materializer");
+    }
+
+    @Override
+    public @NotNull CompoundTag getUpdateTag() {
+        CompoundTag nbt = super.getUpdateTag();
+        saveAdditional(nbt);
+        return nbt;
+    }
+
+    public ItemStackHandler getInventory() {
+        return this.inventory;
+    }
+
+    public ItemStack getStackInSlot(int slot) {
+        return this.inventory.getStackInSlot(slot);
+    }
+
+    @Override
+    public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
+            return this.optional.cast();
+        }
+
+        return super.getCapability(cap);
     }
 }
